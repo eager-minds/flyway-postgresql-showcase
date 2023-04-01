@@ -29,7 +29,9 @@ Project is created with technology:version
 
 ## Screenshots
 
-...
+![docker compose up](screenshots/docker-compose_up.png)
+![runFlyway ExampleInfo Command](screenshots/runFlywayExampleInfoCommand.png)
+![Flyway Desktop](screenshots/FlywayDesktop.png)
 
 ## Setup
 
