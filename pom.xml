@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>tech.eagerminds.showcase</groupId>
+  <artifactId>flyway-postgresql-showcase</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Postgres Flyway Showcase</name>
+  <description>Showcase of Flyway with Postgres</description>
+
+  <properties>
+    <!-- project properties -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+
+    <!-- dependency/plugin version properties (alphabetically) -->
+    <flyway.version>9.8.1</flyway.version>
+    <org.postgresql.version>42.5.4</org.postgresql.version>
+
+    <!-- plugin properties -->
+    <flyway.url>to be overridden with maven profile</flyway.url>
+    <flyway.user>to be overridden with maven profile</flyway.user>
+    <flyway.password>to be overridden with maven profile</flyway.password>
+    <flyway.locations>to be overridden with maven profile</flyway.locations>
+    <flyway.schemas>to be overridden with maven profile</flyway.schemas>
+  </properties>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+  <organization>
+    <name>Eager Minds - Javier de Diego Navarro</name>
+    <url>https://eagerminds.tech</url>
+  </organization>
+  <developers>
+    <developer>
+      <id>javierddn</id>
+      <name>Javier de Diego Navarro</name>
+      <url>https://www.linkedin.com/in/javierdediegonavarro</url>
+      <email>javier@eagerminds.tech</email>
+      <organization>Eager Minds - Freelancer</organization>
+      <organizationUrl>https://www.linkedin.com/company/eager-minds/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <properties>
+        <githubUrl>https://github.com/javierddn</githubUrl>
+        <linkedInUrl>https://www.linkedin.com/in/javierdediegonavarro</linkedInUrl>
+        <dockerHubUrl>https://hub.docker.com/u/javierddn</dockerHubUrl>
+        <bitbucketUrl>https://bitbucket.org/javierddn</bitbucketUrl>
+        <gitlabUrl>https://gitlab.com/javierddn</gitlabUrl>
+        <travisCiUrl>https://app.travis-ci.com/github/javierddn</travisCiUrl>
+        <circleCiUrl>https://app.circleci.com/pipelines/github/javierddn</circleCiUrl>
+      </properties>
+    </developer>
+  </developers>
+
+  <dependencies>
+    <!-- other thirds parties dependencies (alphabetically) -->
+    <dependency>
+      <groupId>org.flywaydb.enterprise</groupId>
+      <artifactId>flyway-proprietary</artifactId>
+    </dependency>
+    <!-- Postgresql -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <!-- org.flyway.enterprise -->
+      <dependency>
+        <groupId>org.flywaydb.enterprise</groupId>
+        <artifactId>flyway-proprietary</artifactId>
+        <version>${flyway.version}</version>
+      </dependency>
+      <!-- Postgresql -->
+      <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>${org.postgresql.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <!-- Flyway plugins -->
+      <plugin>
+        <groupId>org.flywaydb.enterprise</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <!-- thirds parties plugins (alphabetically) -->
+        <!-- Flyway plugins -->
+        <plugin>
+          <groupId>org.flywaydb.enterprise</groupId>
+          <artifactId>flyway-maven-plugin</artifactId>
+          <version>${flyway.version}</version>
+          <configuration>
+            <user>${flyway.user}</user>
+            <password>${flyway.password}</password>
+            <url>${flyway.url}</url>
+            <locations>
+              <location>${flyway.locations}</location>
+            </locations>
+            <schemas>
+              <schema>${flyway.schemas}</schema>
+            </schemas>
+            <ignoreMigrationPatterns>
+              <ignoreMigrationPattern>*:ignored</ignoreMigrationPattern>
+            </ignoreMigrationPatterns>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>postgresql</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <flyway.url>jdbc:postgresql://localhost:5432/flyway-postgresql-showcase</flyway.url>
+        <flyway.user>postgres</flyway.user>
+        <flyway.password>postgres</flyway.password>
+        <flyway.locations>filesystem:src/main/resources/db/migration/postgresql</flyway.locations>
+        <flyway.schemas>flyway</flyway.schemas>
+      </properties>
+    </profile>
+  </profiles>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Maven Central</name>
+      <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+    <repository>
+      <id>redgate</id>
+      <url>https://download.red-gate.com/maven/release</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>central</id>
+      <name>Maven Central</name>
+      <url>https://repo1.maven.org/maven2/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>redgate</id>
+      <url>https://download.red-gate.com/maven/release</url>
+    </pluginRepository>
+  </pluginRepositories>
+</project>
