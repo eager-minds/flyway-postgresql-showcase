@@ -13,9 +13,17 @@ services:
 #      - db:/var/lib/postgresql/data
   adminer:
     image: adminer
-    restart: always
     ports:
       - "8080:8080"
+  flyway-postgresql-showcase:
+    build:
+      context: .
+    ports:
+      - "8081:8080"
+    environment:
+      FLYWAY_LICENSE_KEY: PUT_YOUR_LICENSE_KEY_HERE
+    depends_on:
+      - db
 #volumes:
 #  db:
 #    driver: local
